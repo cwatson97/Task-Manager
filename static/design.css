@@ -1,0 +1,9 @@
+/* The body gives details for the entire page */
+body {
+    font-family: Courier;
+    background-color: yellow;
+    margin: 10px;
+    padding: 35px;
+}
+
+/* The header changes all tags with <header> of the page rgba(238, 153, 186, 0.3) */ 
