@@ -1,0 +1,39 @@
+<!DOCTYPE html>         <!--  This tells the browser that this is an HTML5 document  -->
+<html lang = "en">      <!-- We have to declare what language the page is in (English) for accessibility and SEO (Search Engine Optimization)-->
+
+<head>  <!-- This is where we start out CSS code and hold our Metadata-->
+    <meta charset = "UTF-8">    <!-- Set the character encoding to UTF-8 -->
+
+    <meta name = "viewport" content = "width=device-width, initial-scale = 1.0">
+        <!-- Here we are setting up the rules for the viewport (visible area of screen) of the browser of the device -->
+        <!-- Content hold the instructions for how to size and scale the page || Width scales to the width of the device || intitial scale is the zoom level -->
+    <title> 
+        Task Manager{% block title %}{% endblock %} <!-- title controls the text in the browser tab-->
+    </title>
+</head>
+
+<!-- Begin building the pages body / layout-->
+<body>
+    <header>
+        <h1> Task Manager </h1> <!-- h1 is the main heading visible at the top -->
+        <nav>   <!-- Holds navigation links -->
+            <a href = "{% url 'list_of_tasks'%}"> Tasks</a>     <!-- Use django url tag to generate the correct URL for list of tasks page-->
+            <a href = "{% url 'add_new_task'%}"> Add Tasks</a>  <!-- Use django url tag to generate the correct URL for add new task page-->
+        </nav>
+        <hr>    <!-- Draws a line to separate the header from the main content of the page -->
+    </header>
+
+    <main>
+        {% block content %}
+            <!-- Child templates will inject content here -->
+        {% endblock %}
+    </main>
+
+    <!-- Footer defined the bottom of the page-->
+    <footer>
+        <hr>    <!-- Another horizontal line to separate the main content from the footer -->
+        <p> &copy; 2025 My Task Manager </p>    <!-- &copy is copyright symbol -->
+    </footer>
+
+</body>
+</html>

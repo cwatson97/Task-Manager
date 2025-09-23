@@ -1,7 +1,30 @@
-<h1>Task List</h1>
+<!-- Tells django this template is a chil template and should use Base_Design.html as the skeleton/layout-->
+{% extends 'Base_Design.html'%} 
+
+<!-- Defines the content for the title block that exists in the Base_Design.html file-->
+{% block title %} - Task List{% endblock %}
+
+<!-- All content between block content and endblock will be placed in the section in Base_Design.html where 'block content' is-->
+{% block content %}
+<h1>Current Tasks</h1>
 <ul>
-{% for task in tasks %}
-  <li>{{ task.title }} {% if task.completed %}(Done){% endif %}</li>
-{% endfor %}
+    {% for task in tasks %}
+        <li>
+            {{ task.title }} –
+            {% if task.completed %}
+                ✅ Done
+            {% else %}
+                <form action="{% url 'mark_complete' task.id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Mark Complete</button>
+                </form>
+            {% endif %}
+
+            <form action="{% url 'delete_task' task.id %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+    {% endfor %}
 </ul>
-<a href="{% url 'add_new_task' %}">Add a Task</a>
+{% endblock %}

@@ -1,7 +1,18 @@
+<!-- Tells django this template is a chil template and should use Base_Design.html as the skeleton/layout-->
+{% extends 'Base_Design.html'%} 
+
+<!-- Defines the content for the title block that exists in the Base_Design.html file-->
+{% block title %} - Add Task {% endblock %}
+
+<!-- All content between block content and endblock will be placed in the section in Base_Design.html where 'block content' is-->
+{% block content %}
+
 <h1>Add a Task</h1>
 <form method="post">
-  {% csrf_token %}
-  <input type="text" name="title" placeholder="Task title">
-  <button type="submit">Add</button>
+    {% csrf_token %}
+    <input type="text" name="title" placeholder="Task title">
+    <button type="submit">Add</button>
 </form>
 <a href="{% url 'list_of_tasks' %}">Back to list</a>
+
+{% endblock %}
