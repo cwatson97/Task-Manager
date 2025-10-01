@@ -6,25 +6,63 @@
 
 <!-- All content between block content and endblock will be placed in the section in Base_Design.html where 'block content' is-->
 {% block content %}
-<h1>Current Tasks</h1>
-<ul>
-    {% for task in tasks %}
-        <li>
-            {{ task.title }} –
-            {% if task.completed %}
-                ✅ Done
-            {% else %}
-                <form action="{% url 'mark_complete' task.id %}" method="post" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit">Mark Complete</button>
-                </form>
-            {% endif %}
+<h1 class="task-title">Current Tasks</h1>
 
-            <form action="{% url 'delete_task' task.id %}" method="post" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit">Delete</button>
-            </form>
-        </li>
+<!-- Tabs-container holds all of the tabs the user can click between -->
+<div class="tabs-container">
+
+    <!-- Tab buttons | Daily, weekly, monthly tasks -->
+    <div class="tabs-buttons">
+        <button class="tab-link" data-tab="Daily">Daily</button>
+        <button class="tab-link" data-tab="Weekly">Weekly</button>
+        <button class="tab-link" data-tab="Monthly">Monthly</button>
+    </div>
+
+    <!-- Tab content when a tab button is clicked -->
+    {% for category, tasks in tasks_by_category.items %}
+        <div class="tabs-content {% if forloop.first %}active{% endif %}" id="{{ category }}">
+            <ul class="task-list">
+                {% for task in tasks %}
+                    <li>
+                        {{forloop.counter}}. {{ task.title }}
+                        <div class="task-buttons">
+                            {% if task.completed %}
+                                ✅ Done
+
+                            {% else %}
+                                <form action="{% url 'mark_complete' task.id %}" method="post" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit">Mark Complete</button>
+                                </form>
+                            {% endif %}
+
+                            <form action="{% url 'delete_task' task.id %}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     {% endfor %}
-</ul>
+</div>
+
+<!-- Add Javascript -->
+<script>
+    const tabs = document.querySelectorAll('.tab-link');        // Selects all the tab buttons
+    const contents = document.querySelectorAll('.tab-content'); // Selects all the tab content sections
+
+    // Loops over each button and adds a 'click event listener' to the button that was clicked
+    // When a new button is clicked, the active class is removed from all and added to just the one that was clicked
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+
+            tab.clasList.add('active');
+            document.getElementById(tab.dataset.tab).classList.add('active');
+        });
+    });
+</script>
 {% endblock %}
